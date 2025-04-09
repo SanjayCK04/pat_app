@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:pet_app/core/constants/constants.dart';
-import 'package:pet_app/domain/entities/dog.dart';
+import 'package:pet_app/domain/responses/dog.dart';
 
 class DogsController extends GetxController {
   Rx<Dog> dog = dogsList[0].obs;

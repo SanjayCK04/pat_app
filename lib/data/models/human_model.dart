@@ -1,4 +1,4 @@
-import 'package:pet_app/domain/entities/human.dart';
+import 'package:pet_app/domain/responses/human.dart';
 
 class HumanModel extends Human {
   const HumanModel({

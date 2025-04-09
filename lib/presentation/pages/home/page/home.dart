@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pet_app/core/constants/base_url.dart';
 import 'package:pet_app/core/constants/constants.dart';
 import 'package:pet_app/core/utils/utility_functions.dart';
 import 'package:pet_app/core/widgets/common_widgets.dart';
 import 'package:pet_app/presentation/controllers/dogs_controller.dart';
+import 'package:pet_app/presentation/controllers/login_controller.dart';
 import 'package:pet_app/presentation/pages/home/widgets/home_widgets.dart';
 import 'package:pet_app/presentation/pages/profile/page/profile.dart';
 
@@ -22,6 +24,12 @@ class HomeScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  GestureDetector(
+                    onTap: () {
+                      Get.find<LoginController>().logout(); 
+                    },
+                    child: Text("log out",style: TextStyle(color: Colors.white,fontSize: 25),),
+                  ),
                   heightDivider(10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

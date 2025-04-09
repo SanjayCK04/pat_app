@@ -1,15 +1,54 @@
+import 'package:get/get.dart';
+import 'package:pet_app/data/repositories/login_repository.dart';
+import 'package:pet_app/domain/repositories/login_repository.dart';
+import 'package:pet_app/domain/responses/login_response.dart';
 import 'package:pet_app/presentation/controllers/login_controller.dart';
 import 'package:pet_app/data/data_sources/local/hive_manager.dart';
 
-bool login(LoginController controller) {
-  if (controller.email.value.isNotEmpty &&
-      controller.password.value.isNotEmpty) {
-    writeLoginStatus(true);
-    writeUserEmail(controller.email.value);
-    writeUserPassword(controller.password.value);
-    writeRememberMeStatus(controller.isRememberMe.value);
-    return true;
+LoginRepository _loginRepository = LoginRepositoryImpl();
+
+Future<bool> login(LoginController controller) async {
+  if (controller.email.value.isNotEmpty && controller.password.value.isNotEmpty) {
+    try {
+      // Call the login API
+      final LoginResponse response = await _loginRepository.login(
+        email: controller.email.value,
+        password: controller.password.value,
+      );
+
+      if (response.status == 'S') {
+        // Success status
+        writeLoginStatus(true);
+        writeUserEmail(controller.email.value);
+        if (controller.isRememberMe.value) {
+          writeUserPassword(controller.password.value);
+        }
+        writeRememberMeStatus(controller.isRememberMe.value);
+        return true;
+      } else {
+        // Show error message to user
+        Get.snackbar(
+          'Login Failed',
+          response.message,
+          animationDuration: Duration(milliseconds: 200),
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        return false;
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Login Error',
+        'An error occurred during login.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
   } else {
+    Get.snackbar(
+      'Login Failed',
+      'Please enter email and password',
+      snackPosition: SnackPosition.BOTTOM,
+    );
     return false;
   }
 }

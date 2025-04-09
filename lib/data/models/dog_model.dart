@@ -1,4 +1,4 @@
-import 'package:pet_app/domain/entities/dog.dart';
+import 'package:pet_app/domain/responses/dog.dart';
 
 class DogModel extends Dog {
   DogModel({

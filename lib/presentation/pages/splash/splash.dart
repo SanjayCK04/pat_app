@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pet_app/core/constants/constants.dart';
 import 'package:pet_app/core/widgets/common_widgets.dart';
 import 'package:pet_app/presentation/pages/login/pages/login.dart';
+import 'package:pet_app/presentation/pages/register/pages/register.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -54,7 +55,13 @@ class SplashScreen extends StatelessWidget {
             heightDivider(30),
             makeOutinedButton(
               makeText('Sign Up', context, size: 23),
-              () {},
+              () {
+                Get.to(
+                  RegisterScreen(),
+                  transition: Transition.cupertinoDialog,
+                  duration: const Duration(milliseconds: 500),
+                );
+              },
               context,
             ),
             heightDivider(50),

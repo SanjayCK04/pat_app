@@ -3,27 +3,47 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_app/core/constants/constants.dart';
 import 'package:pet_app/core/utils/utility_functions.dart';
-import 'package:pet_app/core/widgets/common_widgets.dart';
-import 'package:pet_app/presentation/pages/home/page/home.dart';
+import 'package:pet_app/core/widgets/common_widgets.dart'; 
+import 'package:pet_app/presentation/pages/login/pages/login.dart';
 import 'package:pet_app/presentation/pages/login/widgets/login_widgets.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+    TextEditingController firstNameController = TextEditingController();
+    TextEditingController lastNameController = TextEditingController();
+    TextEditingController userNameController = TextEditingController();
 
-    emailController.text = loginController.email.value;
-    passwordController.text = loginController.password.value;
+
+    emailController.text = registerController.email.value;
+    passwordController.text = registerController.password.value;
+    firstNameController.text = registerController.firstName.value;
+    lastNameController.text = registerController.lastName.value;
+    userNameController.text = registerController.userName.value;
+
 
     emailController.addListener(() {
-      loginController.setEmail(emailController.text);
+      registerController.setEmail(emailController.text);
     });
 
     passwordController.addListener(() {
-      loginController.setPassword(passwordController.text);
+      registerController.setPassword(passwordController.text);
+    });
+
+    firstNameController.addListener(() {
+      registerController.setFirstName(firstNameController.text);
+    });
+
+    lastNameController.addListener(() {
+      registerController.setLastName(lastNameController.text);
+    });
+
+    userNameController.addListener(() {
+      registerController.setUserName(userNameController.text);
     });
 
     return Scaffold(
@@ -46,12 +66,36 @@ class LoginScreen extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         margin: EdgeInsets.only(left: getWidth(10)),
                         child: makeText(
-                          'Sign in',
+                          'Sign Up',
                           context,
                           size: 24,
                           align: TextAlign.left,
                           weight: FontWeight.w500,
                         ),
+                      ),
+                      heightDivider(30),
+                      makeInputBox(
+                        'Enter your first name',
+                        firstNameController,
+                        context,
+                        hint: 'First Name',
+                        inputType: TextInputType.text,
+                      ),
+                      heightDivider(30),
+                      makeInputBox(
+                        'Enter your last name',
+                        lastNameController,
+                        context,
+                        hint: 'Last Name',
+                        inputType: TextInputType.text,
+                      ),
+                      heightDivider(30),
+                      makeInputBox(
+                        'Enter your username',
+                        userNameController,
+                        context,
+                        hint: 'Username',
+                        inputType: TextInputType.text,
                       ),
                       heightDivider(30),
                       makeInputBox(
@@ -107,20 +151,20 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       heightDivider(50),
-                      loginController.isLoading.value ? Center(child: CircularProgressIndicator()) : makeFilledButton(
+                      registerController.isLoading.value ? Center(child: CircularProgressIndicator()) : makeFilledButton(
                         makeText(
-                          'Sign In',
+                          'Sign Up',
                           context,
                           size: 23,
                           weight: FontWeight.w500,
                           fontFamily: roboto,
                         ),
                         () async { 
-                          print("what is bool--${loginController.isLoading.value}");
-                          var res = await loginController.login();
+                          print("what is bool--${registerController.isLoading.value}");
+                          var res = await registerController.register();
                           res
                               ? Get.to(
-                                HomeScreen(),
+                                LoginScreen(),
                                 transition: Transition.cupertinoDialog,
                                 duration: const Duration(milliseconds: 500),
                               )
@@ -137,7 +181,7 @@ class LoginScreen extends StatelessWidget {
                               Obx(
                                 () => IconButton.filled(
                                   onPressed: () {
-                                    loginController.toggleRememberMe();
+                                    registerController.toggleRememberMe();
                                   },
                                   padding: EdgeInsets.zero,
                                   style: IconButton.styleFrom(
@@ -146,11 +190,11 @@ class LoginScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                   ),
                                   color:
-                                      loginController.isRememberMe.value
+                                      registerController.isRememberMe.value
                                           ? Colors.white
                                           : Colors.transparent,
                                   icon: Icon(
-                                    loginController.isRememberMe.value
+                                    registerController.isRememberMe.value
                                         ? Icons.check_box_rounded
                                         : Icons.check_box_outline_blank_rounded,
                                     color: Colors.white,
