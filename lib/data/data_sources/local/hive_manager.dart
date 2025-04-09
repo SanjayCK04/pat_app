@@ -1,0 +1,52 @@
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:pet_app/core/utils/utility_functions.dart';
+
+Future<bool> readLoginStatus() async {
+  try {
+    final box = await Hive.openBox('loginStatusBox');
+    bool isLoggedIn = box.get('isLoggedIn', defaultValue: false) as bool;
+    return isLoggedIn;
+  } catch (e) {
+    initHive();
+    return readLoginStatus();
+  }
+}
+
+Future<String> readUserEmail() async {
+  final box = await Hive.openBox('loginStatusBox');
+  String email = box.get('email', defaultValue: '') as String;
+  return email;
+}
+
+Future<String> readUserPassword() async {
+  final box = await Hive.openBox('loginStatusBox');
+  String password = box.get('password', defaultValue: '') as String;
+  return password;
+}
+
+Future<bool> readRememberMeStatus() async {
+  final box = await Hive.openBox('rememberMeBox');
+  bool isRememberMe = box.get('isRememberMe', defaultValue: false) as bool;
+  return isRememberMe;
+}
+
+Future<void> writeLoginStatus(bool status) async {
+  final box = await Hive.openBox('loginStatusBox');
+  await box.put('isLoggedIn', status);
+}
+
+Future<void> writeRememberMeStatus(bool status) async {
+  final box = await Hive.openBox('rememberMeBox');
+  await box.put('isRememberMe', status);
+}
+
+Future<void> writeUserEmail(String email) async {
+  final box = await Hive.openBox('loginStatusBox');
+  await box.put('email', email);
+}
+
+Future<void> writeUserPassword(String password) async {
+  final box = await Hive.openBox('loginStatusBox');
+  await box.put('password', password);
+}
