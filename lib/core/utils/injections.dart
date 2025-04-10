@@ -6,6 +6,7 @@ Future<void> initControllerInjections() {
   dogsController = Get.put(DogsController(), tag: 'currentDog');
   loginController = Get.put(LoginController());
   registerController = Get.put(RegisterController());
+  userProfileController = Get.put(UserProfileController());
   return Future.value();
 }
 

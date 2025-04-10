@@ -5,6 +5,7 @@ import 'package:pet_app/core/utils/utility_functions.dart';
 import 'package:pet_app/presentation/pages/home/page/home.dart';
 import 'package:pet_app/presentation/pages/login/pages/login.dart';
 import 'package:pet_app/presentation/pages/splash/splash.dart';
+import 'package:pet_app/presentation/pages/user_profile/user_profile_screen.dart';
 
 void main() async {
   initHive().then((_) {
@@ -56,6 +57,11 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'Pet App',
         home: home,
+        getPages: [
+          GetPage(name: '/login', page: () => LoginScreen()),
+          GetPage(name: '/home', page: () => HomeScreen()),
+          GetPage(name: '/profile', page: () => UserProfileScreen()),
+        ],
       ),
     );
   }

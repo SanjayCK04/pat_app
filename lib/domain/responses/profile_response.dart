@@ -1,19 +1,19 @@
-class LoginResponse {
+class ProfileResponse {
   final String status;
   final String message;
-  final LoginData? data;
+  final ProfileData? data;
 
-  LoginResponse({
+  ProfileResponse({
     required this.status,
     required this.message,
     this.data,
   });
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    return LoginResponse(
+  factory ProfileResponse.fromJson(Map<String, dynamic> json) {
+    return ProfileResponse(
       status: json['status'] ?? '',
       message: json['message'] ?? '',
-      data: json['data'] != null ? LoginData.fromJson(json['data']) : null,
+      data: json['data'] != null ? ProfileData.fromJson(json['data']) : null,
     );
   }
 
@@ -28,8 +28,8 @@ class LoginResponse {
   }
 }
 
-class LoginData {
-  final int userId;
+class ProfileData {
+  final String userId;
   final String fname;
   final String lname;
   final String email;
@@ -42,14 +42,14 @@ class LoginData {
   final String isEmailVerified;
   final String isGovtIdVerified;
 
-  LoginData({
+  ProfileData({
     required this.userId,
     required this.fname,
     required this.lname,
     required this.email,
     required this.image,
     required this.coverImage,
-    required this.token,
+    this.token = '',
     required this.utype,
     required this.username,
     required this.myReferralCode,
@@ -57,9 +57,9 @@ class LoginData {
     required this.isGovtIdVerified,
   });
 
-  factory LoginData.fromJson(Map<String, dynamic> json) {
-    return LoginData(
-      userId: json['user_id'] ?? 0,
+  factory ProfileData.fromJson(Map<String, dynamic> json) {
+    return ProfileData(
+      userId: json['id']?.toString() ?? '0',
       fname: json['fname'] ?? '',
       lname: json['lname'] ?? '',
       email: json['email'] ?? '',
@@ -76,7 +76,7 @@ class LoginData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['user_id'] = userId;
+    data['id'] = userId;
     data['fname'] = fname;
     data['lname'] = lname;
     data['email'] = email;

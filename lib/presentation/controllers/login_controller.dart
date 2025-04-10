@@ -10,6 +10,7 @@ class LoginController extends GetxController {
   RxString email = ''.obs;
   RxString password = ''.obs;
   RxBool isLoading = false.obs;
+  RxString token = ''.obs;
 
   LoginController() {
     login_usecase.checkLoginStatus().then((value) {
@@ -23,6 +24,10 @@ class LoginController extends GetxController {
     });
     login_usecase.getUserPassword().then((value) {
       password.value = value;
+    });
+    login_usecase.getUserToken().then((value) {
+      token.value = value;
+      print("LoginController initialized with token: $value");
     });
   }
 
@@ -42,12 +47,23 @@ class LoginController extends GetxController {
     password.value = value;
   }
 
+  void setToken(String value) {
+    token.value = value;
+    print("Token set to: $value");
+  }
+
   Future<bool> login() async {
     isLoading.value = true;
     
     try {
       final result = await login_usecase.login(this);
       isLoggedIn.value = result;
+      
+      // Debug token after login
+      String storedToken = await HiveManager.readUserToken();
+      print("After login - token in controller: ${token.value}");
+      print("After login - token in storage: $storedToken");
+      
       return result;
     } finally {
       isLoading.value = false;
@@ -58,7 +74,9 @@ class LoginController extends GetxController {
     HiveManager.writeLoginStatus(false);
     HiveManager.writeUserEmail('');
     HiveManager.writeUserPassword('');
+    HiveManager.writeUserToken('');
     HiveManager.writeRememberMeStatus(false);
+    token.value = '';
     Get.offAll(() => LoginScreen()); // Navigate to login screen and remove all previous screens
   }
 }

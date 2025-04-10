@@ -5,3 +5,4 @@ late DogsController dogsController;
 late BottomBarController bottomBarController;
 late LoginController loginController;
 late RegisterController registerController;
+late UserProfileController userProfileController;

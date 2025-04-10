@@ -25,6 +25,17 @@ Future<String> readUserPassword() async {
   return password;
 }
 
+Future<String> readUserToken() async {
+  final box = await Hive.openBox('loginStatusBox');
+  String token = box.get('token', defaultValue: '') as String;
+  return token;
+}
+
+Future<void> writeUserToken(String token) async {
+  final box = await Hive.openBox('loginStatusBox');
+  await box.put('token', token);
+}
+
 Future<bool> readRememberMeStatus() async {
   final box = await Hive.openBox('rememberMeBox');
   bool isRememberMe = box.get('isRememberMe', defaultValue: false) as bool;
@@ -50,3 +61,5 @@ Future<void> writeUserPassword(String password) async {
   final box = await Hive.openBox('loginStatusBox');
   await box.put('password', password);
 }
+
+ 

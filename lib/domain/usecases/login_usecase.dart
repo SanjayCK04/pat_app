@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_app/data/repositories/login_repository.dart';
 import 'package:pet_app/domain/repositories/login_repository.dart';
@@ -24,12 +25,22 @@ Future<bool> login(LoginController controller) async {
           writeUserPassword(controller.password.value);
         }
         writeRememberMeStatus(controller.isRememberMe.value);
+        
+        // Save token from response
+        if (response.data != null) {
+          String token = response.data!.token;
+          print("Saving token: $token");
+          writeUserToken(token);
+          controller.token.value = token;
+        }
+        
         return true;
       } else {
         // Show error message to user
         Get.snackbar(
           'Login Failed',
           response.message,
+          colorText: Colors.white,
           animationDuration: Duration(milliseconds: 200),
           snackPosition: SnackPosition.BOTTOM,
         );
@@ -58,6 +69,7 @@ bool logout() {
   writeRememberMeStatus(false);
   writeUserEmail('');
   writeUserPassword('');
+  writeUserToken(''); // Clear the token on logout
   return true;
 }
 
@@ -80,3 +92,10 @@ Future<String> getUserPassword() async {
   String password = await readUserPassword();
   return password;
 }
+
+Future<String> getUserToken() async {
+  String token = await readUserToken();
+  print("Retrieved token: $token");
+  return token;
+}
+

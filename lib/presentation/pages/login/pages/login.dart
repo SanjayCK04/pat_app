@@ -6,6 +6,7 @@ import 'package:pet_app/core/utils/utility_functions.dart';
 import 'package:pet_app/core/widgets/common_widgets.dart';
 import 'package:pet_app/presentation/pages/home/page/home.dart';
 import 'package:pet_app/presentation/pages/login/widgets/login_widgets.dart';
+import 'package:pet_app/presentation/pages/register/pages/register.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -107,27 +108,31 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       heightDivider(50),
-                      loginController.isLoading.value ? Center(child: CircularProgressIndicator()) : makeFilledButton(
-                        makeText(
-                          'Sign In',
-                          context,
-                          size: 23,
-                          weight: FontWeight.w500,
-                          fontFamily: roboto,
-                        ),
-                        () async { 
-                          print("what is bool--${loginController.isLoading.value}");
-                          var res = await loginController.login();
-                          res
-                              ? Get.to(
-                                HomeScreen(),
-                                transition: Transition.cupertinoDialog,
-                                duration: const Duration(milliseconds: 500),
-                              )
-                              : null; 
-                        },
-                        context,
-                        margin: EdgeInsets.zero,
+                      Obx(() => 
+                        loginController.isLoading.value 
+                          ? Center(child: CircularProgressIndicator(color: Colors.white)) 
+                          : makeFilledButton(
+                              makeText(
+                                'Sign In',
+                                context,
+                                size: 23,
+                                weight: FontWeight.w500,
+                                fontFamily: roboto,
+                              ),
+                              () async { 
+                                print("what is bool--${loginController.isLoading.value}");
+                                var res = await loginController.login();
+                                res
+                                    ? Get.to(
+                                      HomeScreen(),
+                                      transition: Transition.cupertinoDialog,
+                                      duration: const Duration(milliseconds: 500),
+                                    )
+                                    : null; 
+                              },
+                              context,
+                              margin: EdgeInsets.zero,
+                            ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -233,7 +238,9 @@ class LoginScreen extends StatelessWidget {
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(RegisterScreen());
+                        },
                         child: makeText(
                           'Sign Up',
                           context,
