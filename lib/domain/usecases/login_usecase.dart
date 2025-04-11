@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:pet_app/core/utils/functiona.dart';
 import 'package:pet_app/data/repositories/login_repository.dart';
 import 'package:pet_app/domain/repositories/login_repository.dart';
 import 'package:pet_app/domain/responses/login_response.dart';
@@ -9,7 +8,8 @@ import 'package:pet_app/data/data_sources/local/hive_manager.dart';
 LoginRepository _loginRepository = LoginRepositoryImpl();
 
 Future<bool> login(LoginController controller) async {
-  if (controller.email.value.isNotEmpty && controller.password.value.isNotEmpty) {
+  if (controller.email.value.isNotEmpty &&
+      controller.password.value.isNotEmpty) {
     try {
       // Call the login API
       final LoginResponse response = await _loginRepository.login(
@@ -25,40 +25,43 @@ Future<bool> login(LoginController controller) async {
           writeUserPassword(controller.password.value);
         }
         writeRememberMeStatus(controller.isRememberMe.value);
-        
+
         // Save token from response
         if (response.data != null) {
           String token = response.data!.token;
           print("Saving token: $token");
           writeUserToken(token);
           controller.token.value = token;
+
+          // Save user ID
+          int userId = response.data!.userId;
+          print("Saving user ID: $userId");
+          writeUserId(userId);
         }
-        
+
         return true;
       } else {
         // Show error message to user
-        Get.snackbar(
+        showCustomSnackbar(
           'Login Failed',
           response.message,
-          colorText: Colors.white,
-          animationDuration: Duration(milliseconds: 200),
-          snackPosition: SnackPosition.BOTTOM,
+          Duration(seconds: 2),
         );
         return false;
       }
     } catch (e) {
-      Get.snackbar(
+      showCustomSnackbar(
         'Login Error',
         'An error occurred during login.',
-        snackPosition: SnackPosition.BOTTOM,
+        Duration(seconds: 2),
       );
       return false;
     }
   } else {
-    Get.snackbar(
+    showCustomSnackbar(
       'Login Failed',
       'Please enter email and password',
-      snackPosition: SnackPosition.BOTTOM,
+      Duration(seconds: 2),
     );
     return false;
   }
@@ -87,7 +90,7 @@ Future<String> getUserEmail() async {
   String email = await readUserEmail();
   return email;
 }
-
+  
 Future<String> getUserPassword() async {
   String password = await readUserPassword();
   return password;
@@ -98,4 +101,3 @@ Future<String> getUserToken() async {
   print("Retrieved token: $token");
   return token;
 }
-

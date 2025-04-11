@@ -1,13 +1,12 @@
 import 'package:get/get.dart';
+import 'package:pet_app/core/utils/functiona.dart';
 import 'package:pet_app/data/repositories/profile_repository.dart';
 import 'package:pet_app/domain/repositories/profile_repository.dart';
 import 'package:pet_app/domain/responses/profile_response.dart';
 import 'package:pet_app/domain/responses/update_profile_response.dart';
 import 'package:pet_app/presentation/controllers/user_profile_controller.dart';
 import 'package:pet_app/data/data_sources/local/hive_manager.dart' as HiveManager;
-import 'package:pet_app/presentation/pages/login/pages/login.dart';
-import 'package:flutter/material.dart';
-
+import 'package:pet_app/presentation/pages/login/pages/login.dart'; 
 ProfileRepository _profileRepository = ProfileRepositoryImpl();
 
 Future<ProfileResponse?> getProfile(int userId) async {
@@ -22,30 +21,28 @@ Future<ProfileResponse?> getProfile(int userId) async {
       if (response.data == null) {
         // API returned success but with no data
         print("API returned success but with null data");
-        Get.snackbar(
+        showCustomSnackbar(
           'Profile Info',
           'Profile data is not available',
-          animationDuration: Duration(milliseconds: 200),
-          snackPosition: SnackPosition.BOTTOM,
+          Duration(seconds: 2),
         );
       }
       return response;
     } else {
       // Show error message to user
-      Get.snackbar(
+      showCustomSnackbar(
         'Profile Fetch Failed',
         response.message,
-        animationDuration: Duration(milliseconds: 200),
-        snackPosition: SnackPosition.BOTTOM,
+        Duration(seconds: 2),
       );
       return null;
     }
   } catch (e) {
-    Get.snackbar(
+    showCustomSnackbar(
       'Profile Error',
       'An error occurred while fetching profile.',
-      snackPosition: SnackPosition.BOTTOM,
-    );
+      Duration(seconds: 2),
+    ); 
     print("Exception in getProfile: $e");
     return null;
   }
@@ -61,10 +58,10 @@ Future<bool> checkTokenValidity() async {
   print("Token validation: isLoggedIn=$isLoggedIn, hasToken=${token.isNotEmpty}");
   
   if (!isValid) {
-    Get.snackbar(
+    showCustomSnackbar(
       'Authentication Required',
       'Please log in to update your profile.',
-      snackPosition: SnackPosition.BOTTOM,
+      Duration(seconds: 2),
     );
     
     // Navigate to login screen
@@ -85,11 +82,10 @@ Future<UpdateProfileResponse?> updateProfile({
 }) async {
   // Validate input fields first
   if (firstName.isEmpty || lastName.isEmpty || username.isEmpty || email.isEmpty) {
-    Get.snackbar(
+    showCustomSnackbar(
       'Invalid Input',
       'All fields are required. Please make sure you fill in all the fields.',
-      animationDuration: Duration(milliseconds: 200),
-      snackPosition: SnackPosition.BOTTOM,
+      Duration(seconds: 2),
     );
     return null;
   }
@@ -114,22 +110,18 @@ Future<UpdateProfileResponse?> updateProfile({
 
     if (response.status == 'S') {
       // Success status
-      Get.snackbar(
+      showCustomSnackbar(
         'Success',
         'Your profile has been updated successfully',
-        animationDuration: Duration(milliseconds: 200),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green.withOpacity(0.7),
-        colorText: Colors.white,
+        Duration(seconds: 2),
       );
       return response;
     } else if (response.message.contains('Unauthorized Token')) {
       // Token is invalid or expired
-      Get.snackbar(
+      showCustomSnackbar(
         'Session Expired',
         'Your session has expired. Please log in again.',
-        animationDuration: Duration(milliseconds: 200),
-        snackPosition: SnackPosition.BOTTOM,
+        Duration(seconds: 2),
       );
       
       // Clear the token and navigate to login
@@ -152,19 +144,18 @@ Future<UpdateProfileResponse?> updateProfile({
         errorMessage = 'Please make sure all fields are filled in correctly: $errorMessage';
       }
       
-      Get.snackbar(
+      showCustomSnackbar(
         'Profile Update Failed',
         errorMessage,
-        animationDuration: Duration(milliseconds: 200),
-        snackPosition: SnackPosition.BOTTOM,
+        Duration(seconds: 2),
       );
       return null;
     }
   } catch (e) {
-    Get.snackbar(
+    showCustomSnackbar(
       'Profile Update Error',
       'An error occurred while updating profile: $e',
-      snackPosition: SnackPosition.BOTTOM,
+      Duration(seconds: 2),
     );
     return null;
   }

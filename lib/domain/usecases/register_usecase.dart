@@ -1,4 +1,5 @@
-import 'package:get/get.dart'; 
+import 'package:get/get.dart';
+import 'package:pet_app/core/utils/functiona.dart'; 
 import 'package:pet_app/data/repositories/register_repository.dart';
 import 'package:pet_app/data/request/register_request.dart'; 
 import 'package:pet_app/domain/repositories/register_repository.dart'; 
@@ -33,27 +34,26 @@ Future<bool> register(RegisterController controller) async {
         return true;
       } else {
         // Show error message to user
-        Get.snackbar(
+        showCustomSnackbar(
           'Registration Failed',
           response.message,
-          animationDuration: Duration(milliseconds: 200),
-          snackPosition: SnackPosition.BOTTOM,
+          Duration(seconds: 2),
         );
         return false;
       }
     } catch (e) {
-      Get.snackbar(
+      showCustomSnackbar(
         'Registration Error',
         'An error occurred during registration.',
-        snackPosition: SnackPosition.BOTTOM,
+        Duration(seconds: 2),
       );
       return false;
     }
   } else {
-    Get.snackbar(
+    showCustomSnackbar(
       'Registration Failed',
       'Please fill in all required fields: First Name, Last Name, Username, Email, and Password',
-      snackPosition: SnackPosition.BOTTOM,
+      Duration(seconds: 2),
     );
     return false;
   }
@@ -77,6 +77,11 @@ Future<String> getUserEmail() async {
 }
 
 Future<String> getUserPassword() async {
+  String password = await readUserPassword();
+  return password;
+}
+
+Future<String> getUserPasswordOld() async {
   String password = await readUserPassword();
   return password;
 }

@@ -31,6 +31,19 @@ Future<String> readUserToken() async {
   return token;
 }
 
+Future<int?> readUserId() async {
+  final box = await Hive.openBox('loginStatusBox');
+  // If userId is not set, return null. Otherwise, parse to int
+  var value = box.get('userId');
+  if (value == null) return null;
+  return int.tryParse(value.toString()) ?? 180; // Default to 180 if parsing fails
+}
+
+Future<void> writeUserId(int userId) async {
+  final box = await Hive.openBox('loginStatusBox');
+  await box.put('userId', userId);
+}
+
 Future<void> writeUserToken(String token) async {
   final box = await Hive.openBox('loginStatusBox');
   await box.put('token', token);

@@ -54,8 +54,7 @@ class ProfileInfoCard extends GetView<UserProfileController> {
                     _buildInfoRow(context, 'Email', email.isNotEmpty ? email : 'Not available'),
                     _buildDivider(),
                     _buildInfoRow(context, 'Username', username.isNotEmpty ? username : 'Not available'),
-                    _buildDivider(),
-                    _buildInfoRow(context, 'User Type', utype.isNotEmpty ? utype.toUpperCase() : 'Not available'),
+                    _buildDivider(), 
                   ],
                 );
               } else if (title == 'Verification') {
@@ -74,6 +73,12 @@ class ProfileInfoCard extends GetView<UserProfileController> {
                       isGovtIdVerified == '1' || isGovtIdVerified == 'Y' ? 'Yes' : 'No',
                       valueColor: isGovtIdVerified == '1' || isGovtIdVerified == 'Y' ? Colors.green : Colors.red,
                     ),
+                    _buildDivider(),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => const ChangePasswordScreen());
+                      },
+                      child: _buildInfoRow(context, "Change Password","")), 
                   ],
                 );
               } else if (title == 'Referral') {

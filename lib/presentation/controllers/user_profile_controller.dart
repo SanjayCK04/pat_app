@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pet_app/core/utils/functiona.dart';
 import 'package:pet_app/data/data_sources/local/hive_manager.dart' as HiveManager;
 import 'package:pet_app/domain/responses/login_response.dart';
 import 'package:pet_app/domain/responses/profile_response.dart';
@@ -84,22 +85,22 @@ class UserProfileController extends GetxController {
     isEmailValid.value = email.value.trim().isNotEmpty && GetUtils.isEmail(email.value.trim());
     
     if (!isFirstNameValid.value) {
-      Get.snackbar('Validation Error', 'First name is required');
+      showCustomSnackbar('Validation Error', 'First name is required', Duration(seconds: 2));
       return false;
     }
     
     if (!isLastNameValid.value) {
-      Get.snackbar('Validation Error', 'Last name is required');
+      showCustomSnackbar('Validation Error', 'Last name is required', Duration(seconds: 2));
       return false;
     }
     
     if (!isUsernameValid.value) {
-      Get.snackbar('Validation Error', 'Username is required');
+      showCustomSnackbar('Validation Error', 'Username is required', Duration(seconds: 2));
       return false;
     }
     
     if (!isEmailValid.value) {
-      Get.snackbar('Validation Error', 'A valid email address is required');
+        showCustomSnackbar('Validation Error', 'A valid email address is required', Duration(seconds: 2));
       return false;
     }
     

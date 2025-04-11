@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pet_app/core/utils/functiona.dart';
 import 'package:pet_app/presentation/pages/home/page/home.dart';
 import 'package:pet_app/presentation/pages/user_profile/user_profile_screen.dart';
 
@@ -16,20 +17,18 @@ class BottomBarController extends GetxController {
         break;
       case 1: // Bookings
         // Get.to(() => BookingsScreen());
-        Get.snackbar(
+        showCustomSnackbar(
           'Coming Soon',
           'Bookings screen is under development',
-          snackPosition: SnackPosition.BOTTOM,
-          colorText: Colors.white,
+          Duration(seconds: 2),
         );
         break;
       case 2: // Search
         // Get.to(() => SearchScreen());
-        Get.snackbar(
+        showCustomSnackbar(
           'Coming Soon',
           'Search screen is under development',
-          snackPosition: SnackPosition.BOTTOM,
-          colorText: Colors.white,
+          Duration(seconds: 2),
         );
         break;
       case 3: // Settings/Profile
